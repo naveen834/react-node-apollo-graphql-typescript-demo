@@ -8,6 +8,6 @@
     "@types/jsonwebtoken": "^8.5.1"
   },
     "scripts": {
-    "start": "cd server && npm run build && npm start"
+    "start": "cd server && npm run build"
   }
 }
