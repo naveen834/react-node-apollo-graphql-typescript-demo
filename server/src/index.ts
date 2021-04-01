@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import 'dotenv/config';
 import express from 'express';
+import path from 'path';
 import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import { UserResolver } from './UserResolver';
@@ -14,16 +15,17 @@ import { sendRefreshToken } from './sendRefreshToken';
 // lambda function IIFE
 (async () => {
   const app = express();
+  app.use(express.static(path.resolve(__dirname, '../../web/build')));
   app.use(
     cors({
-      origin: 'http://localhost:3000',
       credentials: true,
     })
   );
   app.use(cookieParser());
   //   below verifies that our app runs correctly
+  // app.get('*', (req, res) => {});
   app.get('/', (_req, res) => {
-    res.send('hello');
+    res.sendFile(path.resolve(__dirname, '../../web/build', 'index.html'));
   });
 
   app.post('/refresh_token', async (req, res) => {
